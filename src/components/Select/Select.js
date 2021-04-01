@@ -9,34 +9,59 @@ const Select = ({ label, value, onChange, children }) => {
   const displayedValue = getDisplayedValue(value, children);
 
   return (
-    <Wrapper
-      role="listbox"
-      id={label}
-      value={value}
-      onChange={onChange}
-    >
-      {children}
+    <Wrapper>
+      <NativeSelect value={value} onChange={onChange}>
+        {children}
+      </NativeSelect>
+      <PresentationalBit>
+        {displayedValue}
+        <IconWrapper style={{ '--size': 24 + 'px' }}>
+          <Icon id="chevron-down" strokeWidth={1} size={24} />
+        </IconWrapper>
+      </PresentationalBit>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.select`
-  appearance: listbox;
-  background-color: ${COLORS.transparentGray15};
-  color: ${COLORS.gray700};
+const Wrapper = styled.div`
+  position: relative;
+  width: max-content;
+`;
 
-  &:hover {
-    background-color: ${COLORS.transparentGray35};
-    color: black;
+const NativeSelect = styled.select`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+`;
+
+const PresentationalBit = styled.div`
+  color: ${COLORS.gray700};
+  background-color: ${COLORS.transparentGray15};
+  font-size: ${16 / 16}rem;
+  padding: 12px 16px;
+  padding-right: 52px;
+  border-radius: 8px;
+  ${NativeSelect}:focus + & {
+    outline: 1px dotted #212121;
+    outline: 5px auto -webkit-focus-ring-color;
+  }
+  ${NativeSelect}:hover + & {
+    color: ${COLORS.black};
   }
 `;
 
-export default Select;
+const IconWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  margin: auto;
+  width: var(--size);
+  height: var(--size);
+  pointer-events: none;
+`;
 
-/*
-Known potential issues:
-1. The width of the select box isn't changing to just be fit-displayed-Value.
-2. What am I supposed to do with displayedValue? Assume that's how I adjust width, but...
-3. Accessibility. Do I need all that material to get this right? Is that just a C&P job?
-4. Icon. Select automatically comes with the dropdown arrow, which is why Icon gives me. I don't understand what I'm supposed to do with it. Go with `appearance: none` to reset all styling and add it back in? Brief experimentation with that didn't let me adjust the width. If I'm just given children, I can't really do anything with them, and can't just add an Icon in, I don't think... this is confusing me...
-*/
+export default Select;
