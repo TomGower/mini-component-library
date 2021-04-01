@@ -10,7 +10,7 @@ const Select = ({ label, value, onChange, children }) => {
 
   return (
     <Wrapper
-      role="list"
+      role="listbox"
       id={label}
       value={value}
       onChange={onChange}
@@ -20,28 +20,10 @@ const Select = ({ label, value, onChange, children }) => {
   );
 };
 
-// need to figure out how to adjust width
-// assume that's why I'm given displayedValue, to use to calculate the width
-// what is the label prop? APPEARS TO BE FOR ACCESSIBILITY, CAN ASSOCIATE WITH PARTICULAR PROMPT. NOT NEEDED IN OUR EXAMPLE
-// accessibility, need to figure out how it works
-// also not using Icon SELECT API SEEMS TO INCLUDE THIS, DO I NEED TO MANUALLY ADD IF CUSTOMIZING WIDTH? NOT SURE
-
-/*
-The Select component will need a down-arrow icon! You can use the chevron-down ID with the Icon component.
-
-We want to use a native <select> tag in this component, so a bit of precursory HTML has been provided.
-
-This component also includes a function, getDisplayedValue. This component uses some React APIs to work out the text that should be displayed. The value isn't currently used, but you can make use of it if needed, depending on your implementation.
-*/
-
 const Wrapper = styled.select`
-  width: min-content;
+  appearance: listbox;
   background-color: ${COLORS.transparentGray15};
   color: ${COLORS.gray700};
-
-  option {
-    width: min-content;
-  }
 
   &:hover {
     background-color: ${COLORS.transparentGray35};
@@ -50,3 +32,11 @@ const Wrapper = styled.select`
 `;
 
 export default Select;
+
+/*
+Known potential issues:
+1. The width of the select box isn't changing to just be fit-displayed-Value.
+2. What am I supposed to do with displayedValue? Assume that's how I adjust width, but...
+3. Accessibility. Do I need all that material to get this right? Is that just a C&P job?
+4. Icon. Select automatically comes with the dropdown arrow, which is why Icon gives me. I don't understand what I'm supposed to do with it. Go with `appearance: none` to reset all styling and add it back in? Brief experimentation with that didn't let me adjust the width. If I'm just given children, I can't really do anything with them, and can't just add an Icon in, I don't think... this is confusing me...
+*/
