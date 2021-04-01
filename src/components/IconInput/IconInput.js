@@ -9,10 +9,12 @@ import VisuallyHidden from '../VisuallyHidden';
 const SIZES = {
   small: {
     '--fontSize': '0.85rem',
+    '--paddingLeft': '12px',
     iconSize: 10.67
   },
   large: {
     '--fontSize': '1rem',
+    '--paddingLeft': '20px',
     iconSize: 16
   }
 }
@@ -31,32 +33,38 @@ const IconInput = ({
       <IconWrapper size={STYLES.iconSize}>
         <Icon id={icon} size={STYLES.iconSize} />
       </IconWrapper>
-      <Text type="text" style={STYLES} placeholder={placeholder} />
+      <VisuallyHidden label={label} />
+      <Text
+        type="text"
+        style={STYLES}
+        placeholder={placeholder}
+        aria-labelledby={label}
+      />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   width: ${p => p.width};
-  /* height: 275px; */
   border-bottom: 2px solid;
 `;
 
 const IconWrapper = styled.div`
-  display: inline;
+  display: inline-block;
   height: ${p => p.size + 'px'};
   width: ${p => p.size + 'px'};
 `;
 
 
 const Text = styled.input`
-  display: inline;
+  display: inline-block;
   color: deeppink;
   font-size: var(--fontSize);
   width: min-content;
   border: none;
   color: ${COLORS.gray700};
   font-weight: 700;
+  padding-left: var(--paddingLeft);
   
   &:hover {
     color: ${COLORS.black};
@@ -68,15 +76,11 @@ const Text = styled.input`
   }
 `;
 
-// Wrapper div sizing isn't working the way I want to to
-// not sure how to style placeholder text and then do something different for content SOLVED THIS
-// maybe that's a TextInput and the Icon goes to the left of it THIS IS RIGHT, EXCEPT IT'S AN INPUT
-// need Icon and TextInput to go on the same line, thought this was just display: inline on both components BUT HOW DO I STYLE ICON WHEN THAT'S GIVEN?
+export default IconInput;
 
 /*
-This component also uses the Icon component — the specific ID will be provided as a prop.
-
-This component requires bold text. You can achieve this look by using font-weight: 700.
+Known potential issues:
+1. Accessibility. I think I have some basics right, but am not sure what's actually good.
+2. Spacing. Based on Figma, it seems to be right distance between the icon and the Search placeholder, but it just doesn't look right.
+3. Vertical alignment of placeholder text. I think it's supposed to be more centered than it is. But I can't tell for sure.
 */
-
-export default IconInput;
